@@ -1,6 +1,7 @@
 what can you do to a sodoku board?
 
-next meeting: saturday at 11AM CST
+next meeting: sunday at 11AM CST for 20 minutes
+full meeting at 5pm cst for a few hours
 # lu?
     def valid_board(self, num, pos):
         # ***** check row *****
