@@ -70,7 +70,7 @@ def insert_a_value_into_a_square(self, row=0, column=0, value_to_insert=0):
     return board[array_index] #returns an array of the row that has been modified
 
 #Andrew
-def check_box(self, box=(0,0), number_to_find=0) 
+def check_box(self, box=(0,0), number_to_find=0): 
     #box is a tupple of the start position of the upper left corner of the individual boxes 
     #box_1 = (0,0) box_2 = (0,3) box_3 = (0,6)
     #box_4 = (3,0) box_5 = (3,3) box_6 = (3,6) 
