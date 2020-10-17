@@ -2,29 +2,74 @@ what can you do to a sodoku board?
 
 next meeting: saturday at 11AM CST
 # lu?
-# def find_numbers_in_a_column
-#     - identify which numbers still need to be added
-#     - return list of [numbers_to_be_added]
-#     - return list of [numbers_already_there]
-#lu?
-# def find_numbers_in_a_row
-#     - identify which numbers still need to be added
-#     - return list of [numbers_to_be_added]
-#     - return list of [numbers_already_there]
-#     # for i in range(len(list[0])):
-#         #if
-#lu?
-# def find_numbers_in_a_box
-#     - identify which numbers still need to be added
-#     - return list of [numbers_to_be_added]
-#     - return list of [numbers_already_there]
+    def valid_board(self, num, pos):
+        # ***** check row *****
+        # loop though every column in the current row
+        for i in range(len(self.board[0])):
+            # does the current pos equal NUM(num is 1-9) and are we not in the position we just inserted
+            if self.board[pos[0]][i] == num and pos[1] != i:
+                return False
+
+        # ***** check column *****
+        # loop through every row in the current column
+        for i in range(len(self.board)):
+            # is our current y-pos equal to num? and ignore posistion we just inserted
+            if self.board[i][pos[1]] == num and pos[0] != i:
+                return False
+
+        # ***** check 3x3 box *****
+        # i dont know how to say this w/o writing a book
+        box_x = pos[1] // 3
+        box_y = pos[0] // 3
+
+        for i in range(box_y*3, box_y*3 + 3):
+            for j in range(box_x * 3, box_x*3 + 3):
+                if self.board[i][j] == num and (i, j) != pos:
+                    return False
+
+        return True
+
+    def find_empty(self):
+        # iterate through the rows
+        for i in range(len(self.board)):
+            # iterare through the indexes of each row (the columns)
+            for j in range(len(self.board[0])):
+                # if current location on board equals 0, return location in tuple (i,j)
+                if self.board[i][j] == 0:
+                    return (i, j)
+        # return None if it can not find a blank sqaure
+        return None
+
+    def solve(self):
+        # find an empty square using FIND_EMPTY function
+        find = self.find_empty()
+        # if it can not find an empty square return true BASE CASE
+        if not find:
+            return True
+        else:
+            row, col = find
+
+        # loop through values 1-9
+        for i in range(1, 10):
+            # check if valid using VALID_BOARD
+            if self.valid_board(i, (find)):
+                # if it is valid, add it to board
+                self.board[row][col] = i
+                # now that we added to the board, run SOLVE on the new board
+                if self.solve():
+                    return True
+                # reset last element we added, and run again
+                self.board[row][col] = 0
+
+        return False
+ 
 #Andrew
-def insert_a_value_into_a_square(self, row, column, value_to_insert):
+def insert_a_value_into_a_square(self, row=0, column=0, value_to_insert=0):
     board[array_index][index_in_array] = value_to_insert #assigns a position on the board
     return board[array_index] #returns an array of the row that has been modified
 
 #Andrew
-def check_box(self, box, number_to_find) 
+def check_box(self, box=(0,0), number_to_find=0) 
     #box is a tupple of the start position of the upper left corner of the individual boxes 
     #box_1 = (0,0) box_2 = (0,3) box_3 = (0,6)
     #box_4 = (3,0) box_5 = (3,3) box_6 = (3,6) 
@@ -42,7 +87,7 @@ def find_empty_cell(self, board_array):
         for column in range(9): #iterate through the column
             if board[row][column] == 0: #check for a 0
                 return (row, column) #returns the row and column of the 0
-                
+
 #Andrew
 def check_valid_placement(self, row=0, column=0, number_to_check=0): #rows and columns are indexed from the top left, Row 0 is on top, row 9 is on bottom
     #columns start on the left at column 0 and end on the right at column 9
@@ -58,7 +103,22 @@ def check_valid_placement(self, row=0, column=0, number_to_check=0): #rows and c
 # # outputs " "
 
 # Augie
-# # def print_board
+board_string = "619030040270061008000047621486302079000014580031009060005720806320106057160400030"
+
+# def board_list(board_string):
+#     board_list = [char for char in board_string]  
+#     return board_list
+
+# print(board_list(board_string))
+
+# def make_board(board_string):
+#     board_list = [char for char in board_string]
+#     board_board = []
+#     subarray = []
+#     array = [board_string[i:i+9] for i in range(0, len(board_string), 9)]
+#     board_board.append(array)
+#     print(board_board)
+#     print(make_board(board_string))
 
 def parse_the_board_string(self, string)
     output self.board
@@ -95,93 +155,206 @@ Standard variables-
     box_8= (6,3)
     box_8= (6,6)
 
+# if you have a list of everything each cell CANNOT be, then when you have 8 numbers there, you know what it must be. 
 
-#boggle solution
+# import re
 # import random
-# class BoggleBoard:
-#   #obj for dice
-#   dice = [["AAEEGN", "ELRTTY", "AOOTTW", "ABBJOO"], 
-#           ["EHRTVW", "CIMOTU", "DISTTY", "EIOSST"],
-#           ["DELRVY", "ACHOPS", ["H", "I", "M", "N", "Qu", "U"], "EEINSU"],
-#           ["EEGHNW", "AFFKPS", "HLNNRZ", "DEILRX"]]
-#   #init empty board and print it
-#   def __init__(self):
-#     self.board = [['_', '_', '_', '_'], 
-#                   ['_', '_', '_', '_'], 
-#                   ['_', '_', '_', '_'], 
-#                   ['_', '_', '_', '_']]
-#     self.print_board()
+# class SudokuSolver:
+#   def __init__(self, board_string):
+#     self.board_list_of_lists = self.string_to_list_of_lists(board_string)
+#     self.box_index_table = self.fill_box_index_table()
+#     self.taken_row_values = self.list_of_lists_rows_taken_numbers()
+#     self.taken_column_values = self.list_of_lists_columns_taken_numbers()
+#     self.taken_box_values = self.list_of_lists_squares_taken_numbers()
+#     self.taken_values_at_index_dict = self.dictionary_of_board_indexes_available_values()
+#     self.proven_boards = []
 
-#   #add a random outcome from the tice to the board
-#   def shake(self):
-#     for board_length in range(0, len(self.board)):
-#       for board_width in range(0, len(self.board[0])):
-#         self.board[board_length][board_width] = self.dice[board_length][board_width][random.randint(0, 5)]
-#     self.print_board()
-#   #print the board, watching out for Qu
-#   def print_board(self):
-#     for board_length in range(0, len(self.board)):
-#       for board_width in range(0, len(self.board[0])):
-#         print(self.board[board_length][board_width], ' ', end = "")
-#         if self.board[board_length][board_width] != 'Qu':
-#           print(' ', end  ='')
-#       print('')
+#   def solve(self):
+#     pass
 
-#   #check if a word is in the board
-#   def include_word(self, word):
-#     #returns a list of xy locations of the letters are on the board in a list
-#     def find_next_letter(letter):
-#           matching_indexes = []
-#           for row in range(0, len(self.board)):
-#             for column in range(0, len(self.board[0])):
-#               # print(self.board[row][column])
-#               if self.board[row][column] == letter.upper():
-#                 # print(row, column)
-#                 matching_indexes.append([row, column])
-#           return matching_indexes
+#   def board(self):
+#     pass
 
-#     #returns true if any string of characters in order are close enough to match
-#     def do_letters_line_up(matching_letters):
-#       #makes sure all the letters have some locations on the board before start
-#       if not len(matching_letters_indexes) >= len(word):
+#   def fill_board_and_solve(self):
+#     board_list_of_lists_original_values = self.board_list_of_lists
+#     for list_size in range(7, 0, -1):
+#       for key, value in self.taken_values_at_index_dict.items():
+#         if len(value) >= list_size:
+#           available_values = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+#           for i in self.taken_values_at_index_dict[key]:
+#             available_values.remove(i)
+#           if len(available_values) == 0:
+#             self.board_list_of_lists = board_list_of_lists_original_values
+#             self.fill_board_and_solve()
+#             return
+#           # print(' values that were taken were:')
+#           # print(self.taken_values_at_index_dict[key])
+#           input_choice = random.choice(available_values)
+#           # print("input value: " + input_choice + " at location " + key[0] + key[1])
+#           self.board_list_of_lists[int(key[0])][int(key[1])] = input_choice
+#           self.taken_row_values = self.list_of_lists_rows_taken_numbers()
+#           self.taken_column_values = self.list_of_lists_columns_taken_numbers()
+#           self.taken_box_values = self.list_of_lists_squares_taken_numbers()
+#           self.taken_values_at_index_dict = self.dictionary_of_board_indexes_available_values()
+#           #######################################################################################
+#           # self.print_board()
+#           # for i in self.taken_values_at_index_dict:
+#           #   print(i ,self.taken_values_at_index_dict[i])
+#           # x = input('')
+#           ######################################################################################
+#     if self.check_if_board_passes(self.board_list_of_lists):
+#       self.proven_boards.append(self.board_list_of_lists)
+#       print(self.proven_boards)
+#     else:
+#       self.board_list_of_lists = board_list_of_lists_original_values
+#       self.fill_board_and_solve()
+
+#   def check_if_board_passes(self, list_of_lists):
+#     for row in list_of_lists:
+#       checked_list = list(dict.fromkeys(row))
+#       if len(row) != len(checked_list):
 #         return False
-#       if len(matching_letters) == 1:
-#         # print(matching_letters)
-#         # print(matching_letters_indexes)
-#         return True
-#       for letter in matching_letters[0]:
-#         for second_letter in matching_letters[1]:
-#           if abs(letter[0] - second_letter[0]) <= 1 and abs(letter[1] - second_letter[1]) <= 1:
-#             next_matching_letters = matching_letters
-#             #for loop to take out board spots already used from other lists, in case of multiple same letters
-#             for each_list in next_matching_letters:
-#               for every_list in each_list:
-#                 if every_list == letter:
-#                   each_list.remove(every_list)
-#             return do_letters_line_up(next_matching_letters[1:])
-#       return False
+#     for index, row in enumerate(list_of_lists):
+#       column = []
+#       for i in range(len(list_of_lists)):
+#         column.append(list_of_lists[index][i])
+#       checked_column = list(dict.fromkeys(column))
+#       if len(column) != len(checked_column):
+#         return False
+#     for j in range(0, 70, 30):
+#       for i in range(0, 7, 3):
+#         list_of_box_values = self.return_values_in_a_box(str(j+i).zfill(2), list_of_lists)
+#         checked_list_of_box_values = list(dict.fromkeys(list_of_box_values))
+#         if len(list_of_box_values) != len(checked_list_of_box_values):
+#           return False
+#     return True
 
-#     #fill list with board locations of each letter
-#     matching_letters_indexes = []
-#     for letter in word:
-#       newlist = find_next_letter(letter)
-#       #keep empty lists from getting in
-#       if len(newlist) > 0:
-#         matching_letters_indexes.append(newlist)
+#   def dictionary_of_board_indexes_available_values(self):
+#     dictionary = {}
+#     for row_index, row in enumerate(self.board_list_of_lists):
+#       for column_index, column in enumerate(row):
+#         xy_index = (str(row_index) + str(column_index)).zfill(2)
+#         if self.board_list_of_lists[row_index][column_index] == '0':
+#           row_taken_value_list = self.taken_row_values[row_index]
+#           column_taken_value_list = self.taken_column_values[column_index]
+#           box_taken_value_list = self.taken_box_values[self.find_box_of_index(xy_index)]
+#           all_taken_values_at_index_dublicates = row_taken_value_list + column_taken_value_list + box_taken_value_list
+#           all_taken_values_at_index = list(dict.fromkeys(all_taken_values_at_index_dublicates))
+#           dictionary[xy_index] = all_taken_values_at_index
+#         else:
+#           given_value_list = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+#           given_value_list.remove(self.board_list_of_lists[row_index][column_index])
+#           dictionary[xy_index] = given_value_list
+#     return dictionary
 
-#     print(do_letters_line_up(matching_letters_indexes))
-#     # print(matching_letters_indexes)
+#   def list_of_lists_squares_taken_numbers(self):
+#     return_list = []
+#     for box in range(9):
+#       return_list.append(self.non_zero_values_in_square(self.box_index_table[box][0]))
+#     return return_list
 
+#   def list_of_lists_columns_taken_numbers(self):
+#     return_list = []
+#     for column in range(len(self.board_list_of_lists[0])):
+#       return_list.append(self.non_zero_values_in_column(column))
+#     return return_list
 
-    
+#   def list_of_lists_rows_taken_numbers(self):
+#     return_list = []
+#     for index, _row in enumerate(self.board_list_of_lists):
+#       return_list.append(self.non_zero_values_in_row(index))
+#     return return_list
 
+#   def string_to_list_of_lists(self, board_string):
+#     return_list = []
+#     rows = re.findall(r"\d{9}", board_string)
+#     for row in rows:
+#       adding_list = []
+#       adding_list[:0] = row
+#       return_list.append(adding_list)
+#     return return_list
+  
+#   def print_board(self):
+#     for index1, row in enumerate(self.board_list_of_lists):
+#       if index1 == 0 or index1 == 3 or index1 == 6:
+#         print('-' * 21)
+#       for index, char in enumerate(row):
+#         print(char, '', end='')
+#         if index == 2 or index == 5:
+#           print('| ', end = '')
+#       print('')
+#       if index1 == 8:
+#           print('-' * 21)
 
+#   def non_zero_values_in_row(self, row_index):
+#     return_list = self.filter_element_from_list(self.board_list_of_lists[row_index], '0')
+#     return return_list
 
-# newgame = BoggleBoard()
-# newgame.shake()
+#   def non_zero_values_in_column(self, column_index):
+#     return_list = []
+#     for row in self.board_list_of_lists:
+#       if row[column_index] != '0':
+#         return_list.append(row[column_index])
+#     return return_list
+  
+#   #square_index should be [x, x] both ints
+#   #returns values taking in the square
+#   def non_zero_values_in_square(self, square_index):
+#     square_index = (str(square_index[0]) + str(square_index[1])).zfill(2)
+  
+#     box = self.find_box_of_index(square_index)
 
-# print('type "exit" to exit loop')
-# guess = input("guess a word in the board, any size: ")
-# while(guess != 'exit'):
-#   newgame.include_word(guess)
-#   guess = input("guess a word in the board, any size: ")
+#     return_list = []
+#     for three_by_three_index in self.box_index_table[box]:
+#       row_value = int(three_by_three_index[0])
+#       char_value = int(three_by_three_index[1])
+#       if self.board_list_of_lists[row_value][char_value] != '0':
+#         return_list.append(self.board_list_of_lists[row_value][char_value])
+
+#     return return_list
+
+#   def return_values_in_a_box(self, square_index, list_of_lists):
+#     square_index = (str(square_index[0]) + str(square_index[1])).zfill(2)
+#     box = self.find_box_of_index(square_index)
+
+#     return_list = []
+#     for three_by_three_index in self.box_index_table[box]:
+#       row_value = int(three_by_three_index[0])
+#       char_value = int(three_by_three_index[1])
+#       return_list.append(self.board_list_of_lists[row_value][char_value])
+
+#     return return_list
+  
+#   # index should be two character string
+#   def find_box_of_index(self, index):
+#     box = ''
+#     for each_box in self.box_index_table:
+#       if index in self.box_index_table[each_box]:
+#         box = each_box
+#         break
+#     return box
+
+#   def fill_box_index_table(self):
+#     boxes = {}
+#     box_center = [1, 1]
+#     box_number = 0
+#     for _row_of_boxes in range(3):
+#       for _each_box in range(3):
+#         box_list = []
+#         for i in range(-1, 2):
+#           box_list.append(str(box_center[0] + i) + str(box_center[1] - 1))
+#           box_list.append(str(box_center[0] + i) + str(box_center[1]))
+#           box_list.append(str(box_center[0] + i) + str(box_center[1] + 1))
+#         boxes[box_number] = box_list
+#         box_number += 1
+#         box_center[1] += 3
+#       box_center[0] += 3
+#       box_center[1] -= 9
+#     return boxes
+
+#   def filter_element_from_list(self, alist, filtered_value):
+#     return_list = []
+#     for i in alist:
+#       if i != filtered_value:
+#         return_list.append(i)
+#     return return_list
