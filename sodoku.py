@@ -75,6 +75,7 @@ def check_box(self, box=(0,0), number_to_find=0):
     #box_1 = (0,0) box_2 = (0,3) box_3 = (0,6)
     #box_4 = (3,0) box_5 = (3,3) box_6 = (3,6) 
     #box_7 = (6,0) box_8 = (6,3) box_9 = (6,6)
+    
     for i in range(3): #iterate over first 3 rows
         for j in range(3): #iterate over the first 3 columns
             if board[i+box[0]][j+box[1]] == number_to_find: #checks if number_to_find exists in a box
@@ -114,7 +115,7 @@ def convert_board_string_into_array_of_array(board_string=self.board_string, ste
 # # outputs " "
 
 # Augie
-board_string = "619030040270061008000047621486302079000014580031009060005720806320106057160400030"
+self.board_string = "619030040270061008000047621486302079000014580031009060005720806320106057160400030"
 
 # def board_list(board_string):
 #     board_list = [char for char in board_string]  
@@ -138,7 +139,7 @@ def board_passes(self, board):
     returns if board passes or not
 
 Standard variables-
-    board = ---------------------
+self.board = ---------------------
             4 8 3 | 9 2 1 | 6 5 7
             9 6 7 | 3 4 5 | 8 2 1
             2 5 1 | 8 7 6 | 4 9 3
@@ -151,10 +152,10 @@ Standard variables-
             8 1 4 | 2 5 3 | 7 6 9
             6 9 5 | 4 1 7 | 3 8 2
             ---------------------
-    board_string = "619030040270061008000047621486302079000014580031009060005720806320106057160400030"
+    self.board_string = "619030040270061008000047621486302079000014580031009060005720806320106057160400030"
     board_board = split.board_string when i % 9 = 0
 
-    board_array = [[4, 8, 3, 9, 2, 1, 6, 5, 7],[9, 6, 7, 3, 4, 5, 8, 2, 1],[2, 5, 1, 8, 7, 6, 4, 9, 3],[5, 4, 8, 1, 3, 2, 9, 7, 6],[7, 2, 9, 5, 6, 4, 1, 3, 8],[1, 3, 6, 7, 9, 8, 2, 4, 5],[3, 7, 2, 6, 8, 9, 5, 1, 4],[8, 1, 4, 2, 5, 3, 7, 6, 9],[6, 9, 5, 4, 1, 7, 3, 8, 2]]
+    self.board_array = [[4, 8, 3, 9, 2, 1, 6, 5, 7],[9, 6, 7, 3, 4, 5, 8, 2, 1],[2, 5, 1, 8, 7, 6, 4, 9, 3],[5, 4, 8, 1, 3, 2, 9, 7, 6],[7, 2, 9, 5, 6, 4, 1, 3, 8],[1, 3, 6, 7, 9, 8, 2, 4, 5],[3, 7, 2, 6, 8, 9, 5, 1, 4],[8, 1, 4, 2, 5, 3, 7, 6, 9],[6, 9, 5, 4, 1, 7, 3, 8, 2]]
 
     box_1= (0,0)
     box_2= (0,3)
