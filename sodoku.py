@@ -82,8 +82,6 @@ def check_box(self, box=(0,0), number_to_find=0):
             else:
                 return False #else it returns false to indicate number is not in the box
 
-def slice_per(board_string, step=9):
-    return [source[i::step] for i in range(step)]
 
 #Andrew
 def find_empty_cell(self, board_array):
