@@ -77,7 +77,7 @@ def check_box(self, box=(0,0), number_to_find=0)
     #box_7 = (6,0) box_8 = (6,3) box_9 = (6,6)
     for i in range(3): #iterate over first 3 rows
         for j in range(3): #iterate over the first 3 columns
-            if board[i+box[0]][j+box[1]] == n: #checks if number_to_find exists in a box
+            if board[i+box[0]][j+box[1]] == number_to_find: #checks if number_to_find exists in a box
                 return True # if it finds the number it returns true
             else:
                 return False #else it returns false to indicate number is not in the box
