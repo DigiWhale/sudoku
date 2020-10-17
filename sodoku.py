@@ -19,7 +19,23 @@ next meeting: saturday at 11AM CST
 #     - return list of [numbers_to_be_added]
 #     - return list of [numbers_already_there]
 
-def insert_a_value_into_a_square
+def insert_a_value_into_a_square(row, column, value_to_insert):
+    board[array_index][index_in_array] = value_to_insert #assigns a position on the board
+    return board[array_index] #returns an array of the row that has been modified
+
+
+def find_empty_cell(board_array):
+    for row in range(9):
+        for column in range(9):
+            if board[row][column] == 0:
+                return (row, column)
+
+def check_valid_placement(row=0, column=0, number_to_check=0): #rows and columns are indexed from the top left, Row 0 is on top, row 9 is on bottom
+    #columns start on the left at column 0 and end on the right at column 9
+    #check row and column
+    for i in range(9):
+        if board[row][i] == number_to_check or board[i][column] == number_to_check:
+            return False
 
 # Augie
 # # def generate_board_array(self, array)
