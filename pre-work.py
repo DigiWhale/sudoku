@@ -1,3 +1,175 @@
+what can you do to a sodoku board?
+
+next meeting: sunday at 11AM CST for 20 minutes
+full meeting at 5pm cst for a few hours
+# lu?
+    def valid_board(self, num, pos):
+        # ***** check row *****
+        # loop though every column in the current row
+        for i in range(len(self.board[0])):
+            # does the current pos equal NUM(num is 1-9) and are we not in the position we just inserted
+            if self.board[pos[0]][i] == num and pos[1] != i:
+                return False
+
+        # ***** check column *****
+        # loop through every row in the current column
+        for i in range(len(self.board)):
+            # is our current y-pos equal to num? and ignore posistion we just inserted
+            if self.board[i][pos[1]] == num and pos[0] != i:
+                return False
+
+        # ***** check 3x3 box *****
+        # i dont know how to say this w/o writing a book
+        box_x = pos[1] // 3
+        box_y = pos[0] // 3
+
+        for i in range(box_y*3, box_y*3 + 3):
+            for j in range(box_x * 3, box_x*3 + 3):
+                if self.board[i][j] == num and (i, j) != pos:
+                    return False
+
+        return True
+
+    def find_empty(self):
+        # iterate through the rows
+        for i in range(len(self.board)):
+            # iterare through the indexes of each row (the columns)
+            for j in range(len(self.board[0])):
+                # if current location on board equals 0, return location in tuple (i,j)
+                if self.board[i][j] == 0:
+                    return (i, j)
+        # return None if it can not find a blank sqaure
+        return None
+
+    def solve(self):
+        # find an empty square using FIND_EMPTY function
+        find = self.find_empty()
+        # if it can not find an empty square return true BASE CASE
+        if not find:
+            return True
+        else:
+            row, col = find
+
+        # loop through values 1-9
+        for i in range(1, 10):
+            # check if valid using VALID_BOARD
+            if self.valid_board(i, (find)):
+                # if it is valid, add it to board
+                self.board[row][col] = i
+                # now that we added to the board, run SOLVE on the new board
+                if self.solve():
+                    return True
+                # reset last element we added, and run again
+                self.board[row][col] = 0
+
+        return False
+ 
+#Andrew
+def insert_a_value_into_a_square(self, row=0, column=0, value_to_insert=0):
+    board[array_index][index_in_array] = value_to_insert #assigns a position on the board
+    return board[array_index] #returns an array of the row that has been modified
+
+#Andrew
+def check_box(self, box=(0,0), number_to_find=0): 
+    #box is a tupple of the start position of the upper left corner of the individual boxes 
+    #box_1 = (0,0) box_2 = (0,3) box_3 = (0,6)
+    #box_4 = (3,0) box_5 = (3,3) box_6 = (3,6) 
+    #box_7 = (6,0) box_8 = (6,3) box_9 = (6,6)
+    
+    for i in range(3): #iterate over first 3 rows
+        for j in range(3): #iterate over the first 3 columns
+            if board[i+box[0]][j+box[1]] == number_to_find: #checks if number_to_find exists in a box
+                return True # if it finds the number it returns true
+            else:
+                return False #else it returns false to indicate number is not in the box
+
+
+#Andrew
+def find_empty_cell(self, board_array):
+    for row in range(9): #iterate through the row
+        for column in range(9): #iterate through the column
+            if board[row][column] == 0: #check for a 0
+                return (row, column) #returns the row and column of the 0
+
+#Andrew
+def check_valid_placement(self, row=0, column=0, number_to_check=0): #rows and columns are indexed from the top left, Row 0 is on top, row 9 is on bottom
+    #columns start on the left at column 0 and end on the right at column 9
+    #check row and column
+    for i in range(9):
+        if board[row][i] == number_to_check or board[i][column] == number_to_check: #this checks if the number_to_check is the only number copy in the row and column
+            return False #returns false if it finds a duplicate in that row or colunm
+        else:
+            return True #returns true if the number is unique to the row and column
+
+def convert_board_string_into_array_of_array(board_string=self.board_string, step=9):
+    board_array =  [board_string[i::step] for i in range(step)] #iterate through string and grab every ninth character
+    for i in range(len(board_array)):
+        for j in range(len(board_array[i])):
+            board_array[i] = list(board_array[i]) # turns board array into 9 arrays of single string
+            board_array[i][j] = int(board_array[i][j]) #breaks string into individual arrays and converts to int()
+    return board_array #returns and array of arrays representing the board_array
+
+
+Augie
+# def generate_board_array(self, array)
+# outputs " "
+
+Augie
+self.board_string = "619030040270061008000047621486302079000014580031009060005720806320106057160400030"
+
+def board_list(board_string):
+    board_list = [char for char in board_string]  
+    return board_list
+
+print(board_list(board_string))
+
+def make_board(board_string):
+    board_list = [char for char in board_string]
+    board_board = []
+    subarray = []
+    array = [board_string[i:i+9] for i in range(0, len(board_string), 9)]
+    board_board.append(array)
+    print(board_board)
+    print(make_board(board_string))
+
+def parse_the_board_string(self, string)
+    output self.board
+
+def board_passes(self, board):
+    returns if board passes or not
+
+Standard variables-
+self.board = ---------------------
+            4 8 3 | 9 2 1 | 6 5 7
+            9 6 7 | 3 4 5 | 8 2 1
+            2 5 1 | 8 7 6 | 4 9 3
+            ---------------------
+            5 4 8 | 1 3 2 | 9 7 6
+            7 2 9 | 5 6 4 | 1 3 8
+            1 3 6 | 7 9 8 | 2 4 5
+            ---------------------
+            3 7 2 | 6 8 9 | 5 1 4
+            8 1 4 | 2 5 3 | 7 6 9
+            6 9 5 | 4 1 7 | 3 8 2
+            ---------------------
+    self.board_string = "619030040270061008000047621486302079000014580031009060005720806320106057160400030"
+    board_board = split.board_string when i % 9 = 0
+
+    self.board_array = [[4, 8, 3, 9, 2, 1, 6, 5, 7],[9, 6, 7, 3, 4, 5, 8, 2, 1],[2, 5, 1, 8, 7, 6, 4, 9, 3],[5, 4, 8, 1, 3, 2, 9, 7, 6],[7, 2, 9, 5, 6, 4, 1, 3, 8],[1, 3, 6, 7, 9, 8, 2, 4, 5],[3, 7, 2, 6, 8, 9, 5, 1, 4],[8, 1, 4, 2, 5, 3, 7, 6, 9],[6, 9, 5, 4, 1, 7, 3, 8, 2]]
+
+    box_1= (0,0)
+    box_2= (0,3)
+    box_3= (0,6)
+    box_4= (3,0)
+    box_5= (3,3)
+    box_6= (3,6)
+    box_7= (6,0)
+    box_8= (6,3)
+    box_8= (6,6)
+
+
+
+############# start of file ###################
 import re
 import random
 class SudokuSolver:
@@ -219,25 +391,25 @@ class SudokuSolver:
 
 # puzzle = SudokuSolver("003020600900305001001806400008102900700000008006708200002609500800203009005010300")
 # puzzle.print_board()
-#print(puzzle.non_zero_values_in_square([0, 2]))
-#print(puzzle.non_zero_values_in_column(0))
-#print(puzzle.non_zero_values_in_row(3))
-#print(puzzle.board_list_of_lists)
+# print(puzzle.non_zero_values_in_square([0, 2]))
+# print(puzzle.non_zero_values_in_column(0))
+# print(puzzle.non_zero_values_in_row(3))
+# print(puzzle.board_list_of_lists)
 # print(puzzle.box_index_table)
-#print(puzzle.taken_row_values)
-#print(puzzle.taken_column_values)
-#print(puzzle.taken_box_values)
+# print(puzzle.taken_row_values)
+# print(puzzle.taken_column_values)
+# print(puzzle.taken_box_values)
 # for i in puzzle.taken_values_at_index_dict:
 #   print(i ,puzzle.taken_values_at_index_dict[i])
-#puzzle.fill_board_and_solve()
+# puzzle.fill_board_and_solve()
 # The file has newlines at the end of each line, so we call
 # String#chomp to remove them.
 # game = SudokuSolver(board_string)
 # # Remember: this will just fill out what it can and not "guess"
 # game.solve
 # print(game.board)
-#square_index should be [x, x] both ints
-#returns values taking in the square
+# square_index should be [x, x] both ints
+# returns values taking in the square
 
 # puzzle2 = SudokuSolver("483921657967345821251876493548132976729564138136798245372689514814253769695417382")
 # puzzle2.print_board()
